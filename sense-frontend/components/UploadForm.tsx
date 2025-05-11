@@ -2,8 +2,17 @@
 import { useState } from "react";
 
 export default function UploadForm() {
+
+  const getCurrentDateTimeLocal = (): string => {
+    const now = new Date();
+    const offset = now.getTimezoneOffset();
+    const local = new Date(now.getTime() - offset * 60 * 1000);
+    return local.toISOString().slice(0, 16); // YYYY-MM-DDTHH:MM
+  };
+
+  
   const [form, setForm] = useState({
-    date: "",
+    date: getCurrentDateTimeLocal(),  // 현재 로컬시간 기준 자동 입력
     location: "",
     sense_type: "",
     keyword: "",
@@ -33,7 +42,7 @@ export default function UploadForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 bg-gray-100 p-6 rounded shadow">
-      <input type="date" name="date" value={form.date} onChange={handleChange} placeholder="날짜 (YYYY-MM-DD)" className="input" required />
+      <input type="datetime-local" name="date" value={form.date} onChange={handleChange} placeholder="날짜 (YYYY-MM-DD)" className="input" required />
       <input name="location" value={form.location} onChange={handleChange} placeholder="장소" className="input" required />
       <input name="sense_type" value={form.sense_type} onChange={handleChange} placeholder="감각유형 (예: 맛, 향)" className="input" required />
       <input name="keyword" value={form.keyword} onChange={handleChange} placeholder="키워드" className="input" />
