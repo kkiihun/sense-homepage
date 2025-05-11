@@ -24,7 +24,7 @@ import {
     const [records, setRecords] = useState<Record[]>([]);
   
     useEffect(() => {
-      fetch('http://localhost:8000/records')
+      fetch('http://192.168.1.143:8000/records')
         .then((res) => res.json())
         .then((data) => setRecords(data));
     }, []);

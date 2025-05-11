@@ -18,7 +18,7 @@ export default function Home() {
 
   const fetchData = () => {
     setLoading(true);
-    fetch("http://localhost:8000/records")
+    fetch("http://192.168.1.143:8000/records")
       .then((res) => res.json())
       .then((data) => {
         setRecords(data);
@@ -31,12 +31,9 @@ export default function Home() {
   };
 
   useEffect(() => {
-    fetch("http://192.168.1.143:8000/records")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data); // ← 결과 브라우저 콘솔에 표시
-      });
+    fetchData(); // ✅ loading + records 세팅 포함
   }, []);
+  
   
 
   return (
