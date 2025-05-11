@@ -33,7 +33,7 @@ export default function UploadForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 bg-gray-100 p-6 rounded shadow">
-      <input name="date" value={form.date} onChange={handleChange} placeholder="날짜 (YYYY-MM-DD)" className="input" required />
+      <input type="date" name="date" value={form.date} onChange={handleChange} placeholder="날짜 (YYYY-MM-DD)" className="input" required />
       <input name="location" value={form.location} onChange={handleChange} placeholder="장소" className="input" required />
       <input name="sense_type" value={form.sense_type} onChange={handleChange} placeholder="감각유형 (예: 맛, 향)" className="input" required />
       <input name="keyword" value={form.keyword} onChange={handleChange} placeholder="키워드" className="input" />
