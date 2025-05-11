@@ -1,19 +1,18 @@
+# main.py
 from fastapi import FastAPI
-from routes import data
-from fastapi.middleware.cors import CORSMiddleware
+from models import Base
+from database import engine
+from sample_loader import load_sample_data
 
-app = FastAPI()  # ← 이 부분 꼭 필요
+app = FastAPI()
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # ✅ 프론트 주소
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# DB 테이블 생성
+Base.metadata.create_all(bind=engine)
 
-app.include_router(data.router)
+@app.on_event("startup")
+def startup_event():
+    load_sample_data()
 
-@app.get("/health")
-def health_check():
-    return {"status": "ok"}
+@app.get("/")
+def root():
+    return {"message": "FastAPI 작동 중"}
