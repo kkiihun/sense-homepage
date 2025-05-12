@@ -1,18 +1,19 @@
-// components/UploadForm.tsx
 import { useState } from "react";
 
-export default function UploadForm() {
+interface Props {
+  onUploadSuccess: () => void;
+}
 
+export default function UploadForm({ onUploadSuccess }: Props) {
   const getCurrentDateTimeLocal = (): string => {
     const now = new Date();
     const offset = now.getTimezoneOffset();
     const local = new Date(now.getTime() - offset * 60 * 1000);
-    return local.toISOString().slice(0, 16); // YYYY-MM-DDTHH:MM
+    return local.toISOString().slice(0, 16);
   };
 
-  
   const [form, setForm] = useState({
-    date: getCurrentDateTimeLocal(),  // 현재 로컬시간 기준 자동 입력
+    date: getCurrentDateTimeLocal(),
     location: "",
     sense_type: "",
     keyword: "",
@@ -27,14 +28,22 @@ export default function UploadForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:8000/upload", {
+    const res = await fetch("http://192.168.1.143:8000/upload", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
     });
     if (res.ok) {
       alert("성공적으로 업로드되었습니다!");
-      setForm({ date: "", location: "", sense_type: "", keyword: "", emotion_score: "", description: "" });
+      onUploadSuccess(); // ✅ 핵심 추가
+      setForm({
+        date: getCurrentDateTimeLocal(),
+        location: "",
+        sense_type: "",
+        keyword: "",
+        emotion_score: "",
+        description: "",
+      });
     } else {
       alert("업로드 실패");
     }
@@ -42,7 +51,7 @@ export default function UploadForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 bg-gray-100 p-6 rounded shadow">
-      <input type="datetime-local" name="date" value={form.date} onChange={handleChange} placeholder="날짜 (YYYY-MM-DD)" className="input" required />
+      <input type="datetime-local" name="date" value={form.date} onChange={handleChange} className="input" required />
       <input name="location" value={form.location} onChange={handleChange} placeholder="장소" className="input" required />
       <input name="sense_type" value={form.sense_type} onChange={handleChange} placeholder="감각유형 (예: 맛, 향)" className="input" required />
       <input name="keyword" value={form.keyword} onChange={handleChange} placeholder="키워드" className="input" />
