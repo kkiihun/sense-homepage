@@ -21,7 +21,9 @@ export default function UploadForm({ onUploadSuccess }: Props) {
     description: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
@@ -33,9 +35,10 @@ export default function UploadForm({ onUploadSuccess }: Props) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
     });
+
     if (res.ok) {
       alert("성공적으로 업로드되었습니다!");
-      onUploadSuccess(); // ✅ 핵심 추가
+      onUploadSuccess(); // 상위 컴포넌트에 알림
       setForm({
         date: getCurrentDateTimeLocal(),
         location: "",
@@ -51,13 +54,55 @@ export default function UploadForm({ onUploadSuccess }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 bg-gray-100 p-6 rounded shadow">
-      <input type="datetime-local" name="date" value={form.date} onChange={handleChange} className="input" required />
-      <input name="location" value={form.location} onChange={handleChange} placeholder="장소" className="input" required />
-      <input name="sense_type" value={form.sense_type} onChange={handleChange} placeholder="감각유형 (예: 맛, 향)" className="input" required />
-      <input name="keyword" value={form.keyword} onChange={handleChange} placeholder="키워드" className="input" />
-      <input name="emotion_score" value={form.emotion_score} onChange={handleChange} placeholder="감정점수 (-5 ~ 5)" type="number" className="input" />
-      <textarea name="description" value={form.description} onChange={handleChange} placeholder="감정 설명" className="input" />
-      <button type="submit" className="bg-orange-500 text-white px-4 py-2 rounded">등록</button>
+      <input
+        type="datetime-local"
+        name="date"
+        value={form.date}
+        onChange={handleChange}
+        className="input"
+        required
+      />
+      <input
+        name="location"
+        value={form.location}
+        onChange={handleChange}
+        placeholder="장소"
+        className="input"
+        required
+      />
+      <input
+        name="sense_type"
+        value={form.sense_type}
+        onChange={handleChange}
+        placeholder="감각유형 (예: 맛, 향)"
+        className="input"
+        required
+      />
+      <input
+        name="keyword"
+        value={form.keyword}
+        onChange={handleChange}
+        placeholder="키워드"
+        className="input"
+      />
+      <input
+        name="emotion_score"
+        type="number"
+        value={form.emotion_score}
+        onChange={handleChange}
+        placeholder="감정점수 (-5 ~ 5)"
+        className="input"
+      />
+      <textarea
+        name="description"
+        value={form.description}
+        onChange={handleChange}
+        placeholder="감정 설명"
+        className="input"
+      />
+      <button type="submit" className="bg-orange-500 text-white px-4 py-2 rounded">
+        등록
+      </button>
     </form>
   );
 }
