@@ -1,4 +1,3 @@
-// components/UploadForm.tsx
 import { useState } from "react";
 
 interface Props {
@@ -10,7 +9,7 @@ export default function UploadForm({ onUploadSuccess }: Props) {
     const now = new Date();
     const offset = now.getTimezoneOffset();
     const local = new Date(now.getTime() - offset * 60 * 1000);
-    return local.toISOString().slice(0, 16); // YYYY-MM-DDTHH:MM
+    return local.toISOString().slice(0, 16);
   };
 
   const [form, setForm] = useState({
@@ -31,13 +30,15 @@ export default function UploadForm({ onUploadSuccess }: Props) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:8000/upload", {
+    const res = await fetch("http://192.168.1.143:8000/upload", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
     });
+
     if (res.ok) {
       alert("성공적으로 업로드되었습니다!");
+      onUploadSuccess(); // 상위 컴포넌트에 알림
       setForm({
         date: getCurrentDateTimeLocal(),
         location: "",
@@ -46,17 +47,13 @@ export default function UploadForm({ onUploadSuccess }: Props) {
         emotion_score: "",
         description: "",
       });
-      onUploadSuccess();  // ← 여기서 상위 컴포넌트에 알립니다.
     } else {
       alert("업로드 실패");
     }
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="space-y-4 bg-gray-100 p-6 rounded shadow"
-    >
+    <form onSubmit={handleSubmit} className="space-y-4 bg-gray-100 p-6 rounded shadow">
       <input
         type="datetime-local"
         name="date"
@@ -103,10 +100,7 @@ export default function UploadForm({ onUploadSuccess }: Props) {
         placeholder="감정 설명"
         className="input"
       />
-      <button
-        type="submit"
-        className="bg-orange-500 text-white px-4 py-2 rounded"
-      >
+      <button type="submit" className="bg-orange-500 text-white px-4 py-2 rounded">
         등록
       </button>
     </form>

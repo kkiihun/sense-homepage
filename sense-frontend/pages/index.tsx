@@ -1,3 +1,4 @@
+// pages/index.tsx
 import { useEffect, useState } from "react";
 import EmotionChart from "@/components/EmotionChart";
 import UploadForm from "@/components/UploadForm";
@@ -35,7 +36,7 @@ export default function Home() {
     fetchData();
   }, []);
 
-  // 최신 6개 (날짜 내림차순 가정)
+  // 최신 6개 (날짜 내림차순)
   const latestSix = [...records]
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 6);
@@ -50,6 +51,7 @@ export default function Home() {
       {/* 헤더 */}
       <Header />
 
+      {/* Hero */}
       <section className="bg-gray-50 py-20 text-center">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
           감각 기반 SENSE 데이터마켓
@@ -59,7 +61,7 @@ export default function Home() {
         </p>
       </section>
 
-      {/* 입력폼 */}
+      {/* 업로드 폼 */}
       <section className="py-16 px-6 max-w-4xl mx-auto">
         <UploadForm onUploadSuccess={fetchData} />
       </section>
@@ -67,7 +69,7 @@ export default function Home() {
       {/* 최신 6개 섹션 */}
       <section className="py-16 bg-gray-100 px-6 max-w-6xl mx-auto">
         <h2 className="text-2xl font-bold text-orange-600 mb-6">
-          최신 데이터 (최신 6개)
+          최신 데이터 (최근 6개)
         </h2>
         {loading ? (
           <p>불러오는 중...</p>
@@ -82,19 +84,17 @@ export default function Home() {
                 </p>
                 <p className="text-sm text-gray-600">{rec.location}</p>
                 <p className="mt-1 text-sm">감정점수: {rec.emotion_score}</p>
-                <p className="text-sm text-gray-700 mt-1">
-                  {rec.description}
-                </p>
+                <p className="text-sm text-gray-700 mt-1">{rec.description}</p>
               </div>
             ))}
           </div>
         )}
       </section>
 
-      {/* 상위 5개 섹션 */}
+      {/* 감정점수 상위 5개 섹션 */}
       <section className="py-16 bg-white px-6 max-w-6xl mx-auto">
         <h2 className="text-2xl font-bold text-blue-600 mb-6">
-          감정점수 상위 5개
+          감정점수 TOP 5
         </h2>
         {loading ? (
           <p>불러오는 중...</p>
@@ -108,10 +108,10 @@ export default function Home() {
                   {rec.date} – {rec.sense_type} ({rec.keyword})
                 </p>
                 <p className="text-sm text-gray-600">{rec.location}</p>
-                <p className="mt-1 text-sm">감정점수: {rec.emotion_score}</p>
-                <p className="text-sm text-gray-700 mt-1">
-                  {rec.description}
+                <p className="mt-1 text-sm text-blue-700 font-semibold">
+                  감정점수: {rec.emotion_score}
                 </p>
+                <p className="text-sm text-gray-700 mt-1">{rec.description}</p>
               </div>
             ))}
           </div>
