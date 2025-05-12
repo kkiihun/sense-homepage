@@ -32,6 +32,7 @@ def startup_event():
     
 @app.get("/")
 def root():
+    logger.info("루트 페이지 접근됨")
     return {"message": "FastAPI 작동 중"}
 
 # ✅ 레코드 조회

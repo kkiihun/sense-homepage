@@ -24,3 +24,5 @@ ehthumbs.db
 # Others
 *.swp
 *.bak
+
+logs/
