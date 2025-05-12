@@ -10,9 +10,9 @@ os.makedirs(LOG_DIR, exist_ok=True)
 # 핸들러 설정: 매일 자정마다 로그 분리 (backupCount=7은 최근 7일 유지)
 handler = TimedRotatingFileHandler(
     filename=os.path.join(LOG_DIR, "sense_backend.log"),
-    when="midnight",
+    when="midnight",    # 매일 자정마다 롤오버
     interval=1,
-    backupCount=7,
+    backupCount=10,     # 10일간 로그 파일 유지
     encoding="utf-8"
 )
 handler.setLevel(logging.INFO)
