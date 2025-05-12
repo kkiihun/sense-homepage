@@ -1,15 +1,16 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 from models import Base, SenseData
 from database import engine, SessionLocal
 from sample_loader import load_sample_data
 
 app = FastAPI()
 
-# ✅ CORS 설정 (프론트엔드에서 API 접근 가능하게 함)
+# ✅ CORS 설정
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # 또는 ["http://192.168.1.XXX:3000"] 등 특정 프론트엔드만 허용 가능
+    allow_origins=["*"],  # 필요시 프론트엔드 주소로 제한 가능
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -18,7 +19,7 @@ app.add_middleware(
 # ✅ DB 테이블 생성
 Base.metadata.create_all(bind=engine)
 
-# ✅ 앱 시작 시 샘플 데이터 로드
+# ✅ 샘플 데이터 로드
 @app.on_event("startup")
 def startup_event():
     load_sample_data()
@@ -27,7 +28,7 @@ def startup_event():
 def root():
     return {"message": "FastAPI 작동 중"}
 
-# ✅ 레코드 리스트 조회 API
+# ✅ 레코드 조회
 @app.get("/records")
 def get_records():
     db = SessionLocal()
@@ -45,3 +46,23 @@ def get_records():
         }
         for r in records
     ]
+
+# ✅ 업로드용 Pydantic 모델
+class SenseInput(BaseModel):
+    date: str
+    location: str
+    sense_type: str
+    keyword: str
+    emotion_score: int
+    description: str
+
+# ✅ 업로드 API
+@app.post("/upload")
+def upload_record(data: SenseInput):
+    db = SessionLocal()
+    record = SenseData(**data.dict())
+    db.add(record)
+    db.commit()
+    db.refresh(record)
+    db.close()
+    return {"message": "업로드 성공", "id": record.id}
