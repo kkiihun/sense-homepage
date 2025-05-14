@@ -89,5 +89,5 @@ class SenseData(Base):
 ```
 
 ### 👨‍💻 작성자
-** 기훈 김 (Kihun Kim) **
-** 데이터 모델링 / ORM 설계 / ERD 설계 담당 **
+- 기훈 김 (Kihun Kim)
+- 데이터 모델링 / ORM 설계 / ERD 설계 담당 
