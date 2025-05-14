@@ -72,3 +72,14 @@
 
 ## 🧱 기능 모듈 구조도
 
+```mermaid
+graph TD
+  A[기록 입력] --> B[Frontend (Next.js)]
+  B --> C[POST /records API]
+  C --> D[Backend (FastAPI)]
+  D --> E[Database (PostgreSQL)]
+  E --> F[지도 시각화 / 감정 분석 / 사용자별 기록 조회]
+  F --> G[관리자 기능 (열람/삭제)]
+  G --> H[콘텐츠 자동 발행 / 감성 키트 / 데이터 마켓 연동]
+
+
