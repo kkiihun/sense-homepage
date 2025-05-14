@@ -31,12 +31,14 @@
   "image_url": "http://example.com/image.jpg",
   "audio_url": "http://example.com/audio.mp3"
 }
-'''
+```
 
+- **Response:**
+```json
 {
   "message": "Record saved successfully",
   "id": 17
 }
-
+```
 
 
