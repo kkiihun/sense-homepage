@@ -121,7 +121,62 @@
 }
 ```
 
+### 📌 3.2 로그인
 
+- **Endpoint:** `POST /users/login`
+- **Request Body:**
+```json
+{
+  "email": "user@example.com",
+  "password": "securepassword"
+}
+```
+
+- **Response:**
+```json
+{
+  "access_token": "jwt_token_here",
+  "token_type": "bearer"
+}
+```
+
+### 📌 3.3 내 기록 조회 (토큰 필요)
+
+- **Endpoint:** `GET /users/me/records`
+- **Headers:** `Authorization: Bearer {token}`
+- **Response: (로그인된 사용자의 기록 목록)
+
+
+## 🗺️ 4. 지도 시각화용 API
+### 📌 4.1 기록 위치 요약
+
+- **Endpoint:** `GET /records/map`
+- **Description:** 좌표별 감정 점수 집계 결과
+- **Response:
+```json
+[
+  {
+    "location": "광화문",
+    "avg_emotion": 2.4,
+    "record_count": 12,
+    "latitude": 37.5702,
+    "longitude": 126.9769
+  }
+]
+```
+
+## 📦 필드 정의 요약
+
+| 필드명         | 타입                 | 설명                     |
+|----------------|----------------------|--------------------------|
+| `date`         | string (YYYY-MM-DD)  | 체험 일자                |
+| `location`     | string               | 장소                     |
+| `sense_type`   | string               | 감각 유형 (시각, 청각 등) |
+| `keyword`      | string               | 키워드 (콤마로 구분)     |
+| `emotion_score`| int                  | -5 ~ +5                  |
+| `description`  | string               | 체험 설명                |
+| `image_url`    | string               | 이미지 경로              |
+| `audio_url`    | string               | 오디오 경로              |
 
 
 
