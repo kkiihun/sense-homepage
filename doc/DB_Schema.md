@@ -67,4 +67,27 @@ erDiagram
     text audio_url
     timestamp created_at
   }
+```
 
+## 🧩 ORM 매핑 예시 (Python SQLAlchemy)
+
+```
+class SenseData(Base):
+    __tablename__ = "sense_data"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    date = Column(Date)
+    location = Column(String)
+    sense_type = Column(String)
+    keyword = Column(String)
+    emotion_score = Column(Integer)
+    description = Column(String)
+    image_url = Column(String)
+    audio_url = Column(String)
+    created_at = Column(DateTime, default=datetime.utcnow)
+```
+
+### 👨‍💻 작성자
+** 기훈 김 (Kihun Kim) **
+** 데이터 모델링 / ORM 설계 / ERD 설계 담당 **
